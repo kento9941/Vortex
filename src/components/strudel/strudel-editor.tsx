@@ -5,9 +5,8 @@ import { getAudioContext, webaudioOutput, registerSynthSounds, initAudioOnFirstC
 import { registerSoundfonts } from "@strudel/soundfonts";
 import { transpiler } from "@strudel/transpiler";
 import { evalScope } from "@strudel/core";
-// import { MyTunes } from "../../tunes/my-tunes";
-// temporarily use this instead of MyTunes
-import { stranger_tune } from "../../tunes/sample-tunes";
+import { MyTunes } from "../../tunes/my-tunes";
+// import { stranger_tune } from "../../tunes/sample-tunes";
 import { useStrudelStore } from "../../stores/useStrudelStore";
 
 // @strudel/codemirror ships no official types, so this interface is
@@ -82,13 +81,15 @@ export default function StrudelEditor() {
 
         const procTextarea = document.getElementById("proc") as HTMLTextAreaElement | null;
         if (procTextarea) {
-            procTextarea.value = stranger_tune;
+            // procTextarea.value = stranger_tune;
+            procTextarea.value = MyTunes();
         }
     }, []);
 
     const handlePlay = (): void => {
         globalEditor?.evaluate();
         setPlaying(true);
+        console.log(MyTunes());
     };
 
     const handleStop = (): void => {
@@ -97,7 +98,8 @@ export default function StrudelEditor() {
     };
 
     const handleProc = (): void => {
-        globalEditor?.setCode(stranger_tune);
+        // globalEditor?.setCode(stranger_tune);
+        globalEditor?.setCode(MyTunes());
     };
 
     useEffect(() => {

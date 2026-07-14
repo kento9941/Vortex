@@ -1,19 +1,16 @@
 import { useKeyboardStore } from "../../stores/useKeyboardStore";
-import type { KeyboardData } from "../../stores/useKeyboardStore";
 import { useGuitarStore } from "../../stores/useGuitarStore";
-import type { GuitarData } from "../../stores/useGuitarStore";
 import { useBassStore } from "../../stores/useBassStore";
-import type { BassData } from "../../stores/useBassStore";
 import { useSynthStore } from "../../stores/useSynthStore";
-import type { SynthData } from "../../stores/useSynthStore";
 import { useDrumStore } from "../../stores/useDrumStore";
 import type { DrumState } from "../../stores/useDrumStore";
+import type { MelodicInstrumentData } from "../../stores/types";
 
 interface SequencerFileData {
-    keyboard: KeyboardData;
-    guitar: GuitarData;
-    bass: BassData;
-    synth: SynthData;
+    keyboard: MelodicInstrumentData;
+    guitar: MelodicInstrumentData;
+    bass: MelodicInstrumentData;
+    synth: MelodicInstrumentData;
     drum: DrumState;
 }
 

@@ -1,42 +1,17 @@
 import { create } from "zustand";
-
-export interface NoteData {
-    note: string;
-    gain: number;
-    release: number;
-}
-
-export interface TrackData {
-    struct: NoteData[];
-    play: boolean;
-    gain: number;
-}
-
-export interface SynthSettings {
-    play: boolean;
-    bank: string;
-    slow: number;
-    gain: number;
-}
-
-// restrict track names to exactly the keys you use to prevent typos
-export type TrackName = "c" | "cs" | "d" | "ds" | "e" | "f" | "fs" | "g" | "gs" | "a" | "as" | "b";
-
-export interface SynthData extends Record<TrackName, TrackData> {
-    settings: SynthSettings;
-}
+import type { MelodicNoteData, MelodicTrackData, MelodicInstrumentData, MelodicTrackName } from "./types";
 
 export interface SynthStore {
-    synth: SynthData;
-    updateSynth: <K extends keyof SynthData>(name: K, updates: Partial<SynthData[K]>) => void;
-    updateNote: (track: TrackName, index: number, updates: Partial<NoteData>) => void;
-    resetTrack: (track: TrackName) => void;
+    synth: MelodicInstrumentData;
+    updateSynth: <K extends keyof MelodicInstrumentData>(name: K, updates: Partial<MelodicInstrumentData[K]>) => void;
+    updateNote: (track: MelodicTrackName, index: number, updates: Partial<MelodicNoteData>) => void;
+    resetTrack: (track: MelodicTrackName) => void;
     resetState: () => void;
     getSynthStr: () => string;
 }
 
 // helper function to keep the initial state clean
-const createInitialStruct = (): NoteData[] => 
+const createInitialStruct = (): MelodicNoteData[] => 
     Array.from({ length: 32 }, () => ({
         note: "~",
         gain: 1,
@@ -150,16 +125,16 @@ export const useSynthStore = create<SynthStore>()((set, get) => ({
 
         if (!synth.settings.play) return `seq(["~"])`;
 
-        const stack = (Object.entries(synth) as [keyof SynthData, any][])
+        const stack = (Object.entries(synth) as [keyof MelodicInstrumentData, any][])
             .filter(([name]) => name !== "settings")
-            .map(([name, trackData]: [keyof SynthData, TrackData]) => {
+            .map(([name, trackData]: [keyof MelodicInstrumentData, MelodicTrackData]) => {
 
                 if (!trackData.play) {
                     return `// ${String(name)} muted`;
                 }
 
                 let seq = "seq([" +
-                    trackData.struct.map((obj: NoteData) =>
+                    trackData.struct.map((obj: MelodicNoteData) =>
                         obj.note === "~"
                             ? `"~"`
                             : `makeNote("${obj.note}", "${synthBank}", ${obj.gain * trackData.gain}, ${obj.release})`

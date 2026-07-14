@@ -1,20 +1,12 @@
 import { create } from "zustand";
+import type { InstrumentSettings, DrumTrack } from "./types";
 
-export interface DrumSettings {
-    play: boolean;
-    bank: string;
-    slow: number;
-    gain: number;
-}
-
-export interface DrumTrack {
-    struct: string[];
-    play: boolean;
-    gain: number;
+export interface GenericDrumData extends Record<string, any> {
+    settings: InstrumentSettings;
 }
 
 export interface DrumState {
-    settings: DrumSettings;
+    settings: InstrumentSettings;
     hihat: DrumTrack;
     open_hihat: DrumTrack;
     snare_drum: DrumTrack;

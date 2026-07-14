@@ -1,42 +1,17 @@
 import { create } from "zustand";
+import type { MelodicNoteData, MelodicTrackData, MelodicInstrumentData, MelodicTrackName } from "./types";
 
-export interface NoteData {
-    note: string;
-    gain: number;
-    release: number;
-}
-
-export interface TrackData {
-    struct: NoteData[];
-    play: boolean;
-    gain: number;
-}
-
-export interface KeyboardSettings {
-    play: boolean;
-    bank: string;
-    slow: number;
-    gain: number;
-}
-
-// restrict track names to exactly the keys you use to prevent typos
-export type TrackName = "c" | "cs" | "d" | "ds" | "e" | "f" | "fs" | "g" | "gs" | "a" | "as" | "b";
-
-export interface KeyboardData extends Record<TrackName, TrackData> {
-    settings: KeyboardSettings;
-}
-
-export interface KeyboardStore {
-    keyboard: KeyboardData;
-    updateKeyboard: <K extends keyof KeyboardData>(name: K, updates: Partial<KeyboardData[K]>) => void;
-    updateNote: (track: TrackName, index: number, updates: Partial<NoteData>) => void;
-    resetTrack: (track: TrackName) => void;
+interface KeyboardStore {
+    keyboard: MelodicInstrumentData;
+    updateKeyboard: <K extends keyof MelodicInstrumentData>(name: K, updates: Partial<MelodicInstrumentData[K]>) => void;
+    updateNote: (track: MelodicTrackName, index: number, updates: Partial<MelodicNoteData>) => void;
+    resetTrack: (track: MelodicTrackName) => void;
     resetState: () => void;
     getKeyboardStr: () => string;
 }
 
 // helper function to keep the initial state clean
-const createInitialStruct = (): NoteData[] => 
+const createInitialStruct = (): MelodicNoteData[] => 
     Array.from({ length: 32 }, () => ({
         note: "~",
         gain: 1,
@@ -47,7 +22,7 @@ const createInitialStruct = (): NoteData[] =>
 export const useKeyboardStore = create<KeyboardStore>()((set, get) => ({
     keyboard: {
         settings: {
-            play: false,
+            play: true,
             bank: "gm_piano",
             slow: 2,
             gain: 1,
@@ -150,16 +125,16 @@ export const useKeyboardStore = create<KeyboardStore>()((set, get) => ({
 
         if (!keyboard.settings.play) return `seq(["~"])`;
 
-        const stack = (Object.entries(keyboard) as [keyof KeyboardData, any][])
+        const stack = (Object.entries(keyboard) as [keyof MelodicInstrumentData, any][])
             .filter(([name]) => name !== "settings")
-            .map(([name, trackData]: [keyof KeyboardData, TrackData]) => {
+            .map(([name, trackData]: [keyof MelodicInstrumentData, MelodicTrackData]) => {
 
                 if (!trackData.play) {
                     return `// ${String(name)} muted`;
                 }
 
                 let seq = "seq([" +
-                    trackData.struct.map((obj: NoteData) =>
+                    trackData.struct.map((obj: MelodicNoteData) =>
                         obj.note === "~"
                             ? `"~"`
                             : `makeNote("${obj.note}", "${keyboardBank}", ${obj.gain * trackData.gain}, ${obj.release})`
