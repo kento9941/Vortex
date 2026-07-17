@@ -3,7 +3,7 @@ import { create } from "zustand";
 export interface StrudelControls {
     play: (() => void) | null;
     stop: (() => void) | null;
-    proc: any | null; 
+    proc: (() => void | Promise<void>) | null; 
 }
 
 export interface StrudelStore extends StrudelControls {
@@ -18,6 +18,6 @@ export const useStrudelStore = create<StrudelStore>((set) => ({
     proc: null,
     isPlaying: false,
 
-    setControls: (controls) => set((state) => ({ ...state, ...controls })),
+    setControls: (controls) => set(controls),
     setPlaying: (isPlaying) => set({ isPlaying })
 }));

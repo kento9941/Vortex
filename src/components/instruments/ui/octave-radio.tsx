@@ -7,7 +7,7 @@ interface OctaveRadioProps {
     updateNote: (track: MelodicTrackName, index: number, updates: Partial<MelodicNoteData>) => void;
 }
 
-export default function OctaveRadio({ selectedNote, note, updateNote }: OctaveRadioProps) {
+const OctaveRadio = ({ selectedNote, note, updateNote }: OctaveRadioProps) => {
     // e.g. cs -> c#
     const displayBase = selectedNote.note.replace("s", "#");
     const displayNote = displayBase.charAt(0).toUpperCase() + displayBase.slice(1);
@@ -43,3 +43,5 @@ export default function OctaveRadio({ selectedNote, note, updateNote }: OctaveRa
         </div>
     );
 }
+
+export default OctaveRadio;

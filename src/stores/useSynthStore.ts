@@ -12,7 +12,7 @@ export interface SynthStore {
 
 // helper function to keep the initial state clean
 const createInitialStruct = (): MelodicNoteData[] => 
-    Array.from({ length: 32 }, () => ({
+    Array.from({ length: 64 }, () => ({
         note: "~",
         gain: 1,
         release: 1,
@@ -22,7 +22,7 @@ const createInitialStruct = (): MelodicNoteData[] =>
 export const useSynthStore = create<SynthStore>()((set, get) => ({
     synth: {
         settings: {
-            play: false,
+            play: true,
             bank: "saw", // Default sound bank updated to synth
             slow: 2,
             gain: 1,

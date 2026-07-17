@@ -2,8 +2,8 @@
 
 :root {
     --background: #151515;
-    --foreground: #F1F1F1;
-    --grey: #C0C0C0;
+    --white: #C0C0C0;
+    --grey: #8b8b8b;
     --dark-grey: #525252;
 
     /* Font Family */
@@ -19,7 +19,7 @@
   
 body {
     background-color: #151515;
-    color: var(--foreground);
+    color: var(--white);
     font-family: var(--font-base);
     font-size: var(--fs-normal);
     font-weight: var(--fw-normal);
@@ -47,6 +47,10 @@ body {
     font-size: var(--fs-small);
 }
 
+.grey-text {
+    color: var(--grey);
+}
+
 /* volume slider */
 .slider {
     /* slider */
@@ -55,7 +59,7 @@ body {
     --slider-bg: var(--dark-grey);
     --slider-border-radius: 100rem;
     /* level */
-    --level-color: var(--grey);
+    --level-color: var(--white);
     --level-transition-duration: .1s;
 }
 
@@ -111,7 +115,7 @@ body {
     width: 100%;
     height: 1.6rem;
     background-color: #151515;
-    color: var(--foreground);
+    color: var(--white);
     padding: 0.3rem;
     font-size: var(--fs-small);
     border: none;
@@ -137,7 +141,7 @@ body {
 .dropdown-option {
     padding: 0.3rem;
     font-size: var(--fs-small);
-    color: var(--foreground);
+    color: var(--white);
     cursor: pointer;
 }
 
@@ -154,7 +158,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    gap: clamp(0.8rem, 1.1vw, 1.1rem);
 }
 
 .radio-wrapper {
@@ -178,7 +182,7 @@ body {
     width: 0.8rem;
     height: 0.8rem;
     margin-left: 0.2rem;
-    border: 0.1rem solid var(--grey);
+    border: 0.1rem solid var(--white);
     border-radius: 20%;
 }
 
@@ -191,7 +195,7 @@ body {
     width: 0.4rem;
     height: 0.4rem;
     border-radius: 20%;
-    background-color: var(--grey);
+    background-color: var(--white);
     transition: all 0.1s ease-in-out;
 }
 
@@ -230,14 +234,14 @@ body {
     height: 1.5rem;
     text-align: center;
     background-color: #151515;
-    color: var(--grey);
+    color: var(--white);
     padding: 0.05rem 0;
     transition: all 0.1s ease-in-out;
 }
 
 .value-input:focus {
     outline: none;
-    border-bottom-color: var(--grey);
+    border-bottom-color: var(--white);
 }
 
 /* remove native number input spinner arrows, matching the radio's custom-drawn look */

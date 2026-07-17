@@ -32,14 +32,14 @@ export interface DrumStore {
 }
 
 const createInitialTrack = (): DrumTrack => ({
-    struct: Array.from({ length: 32 }, () => "~"),
+    struct: Array.from({ length: 64 }, () => "~"),
     play: true,
     gain: 1
 });
 
 const initialDrumState: DrumState = {
     settings: {
-        play: false,
+        play: true,
         bank: "RolandTR808",
         slow: 2,
         gain: 1,

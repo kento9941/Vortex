@@ -14,16 +14,17 @@ export default function NoteSettings({ selectedNote, noteData, updateNote }: Not
     if (!noteData) return null;
 
     return (
-        <div className="w-[36rem] h-[4rem] bg-[#252525] flex flex-col justify-center gap-[0.2rem]">
-            <div className="small-text flex px-[1rem]">
-                <span className="w-[21rem]">OCTAVE</span>
+        <div className="w-[calc(100vw-57.2rem)] max-w-[38rem] h-[5.5rem] flex flex-col justify-center gap-[0.2rem] px-[1rem] bg-[#252525] z-100">
+            <div className="grey-text mb-[0.5rem]">NOTE SETTINGS</div>
+            <div className="small-text w-full flex justify-between">
+                <span className="w-[19rem]">OCTAVE</span>
                 <span className="w-[7rem]">RELEASE</span>
-                <span>VOLUME</span>
+                <span className="w-[7rem]">VOLUME</span>
             </div>
 
-            <div className="flex items-center px-[1rem]">
+            <div className="w-full flex items-center justify-between">
                 {/* octave */}
-                <div className="w-[21rem] flex justify-start">
+                <div className="w-[19rem] flex justify-start">
                     <OctaveRadio
                         selectedNote={selectedNote}
                         note={noteData.note}
@@ -41,7 +42,7 @@ export default function NoteSettings({ selectedNote, noteData, updateNote }: Not
                 </div>
 
                 {/* volume */}
-                <div className="flex items-center justify-start gap-[0.2rem]">
+                <div className="w-[7rem] flex items-center justify-start gap-[0.2rem]">
                     <svg className="h-[0.8rem] aspect-[35/25]" viewBox="0 0 35 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M28.95 0.5C32.0745 3.62546 33.8298 7.86393 33.8298 12.2833C33.8298 16.7027 32.0745 20.9412 28.95 24.0667M23.0667 6.38333C24.6289 7.94606 25.5066 10.0653 25.5066 12.275C25.5066 14.4847 24.6289 16.6039 23.0667 18.1667M15.5 0.616668L7.16667 7.28333H0.5V17.2833H7.16667L15.5 23.95V0.616668Z" stroke="#C0C0C0" strokeWidth="0.15rem" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>

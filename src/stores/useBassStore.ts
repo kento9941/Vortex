@@ -12,7 +12,7 @@ export interface BassStore {
 
 // helper function to keep the initial state clean
 const createInitialStruct = (): MelodicNoteData[] => 
-    Array.from({ length: 32 }, () => ({
+    Array.from({ length: 64 }, () => ({
         note: "~",
         gain: 1,
         release: 1,
@@ -22,7 +22,7 @@ const createInitialStruct = (): MelodicNoteData[] =>
 export const useBassStore = create<BassStore>()((set, get) => ({
     bass: {
         settings: {
-            play: false,
+            play: true,
             bank: "gm_acoustic_bass", // Default sound bank updated to bass
             slow: 2,
             gain: 1,

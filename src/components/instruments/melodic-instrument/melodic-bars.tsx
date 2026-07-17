@@ -1,7 +1,7 @@
 import type { MelodicTrackName, MelodicInstrumentData, MelodicNoteData } from "../../../stores/types";
 import { addBar } from "../../../utils/bar-handlers/add-bar";
 import { deleteBar } from "../../../utils/bar-handlers/delete-bar";
-import AddDeleteButton from "./add-delete-button";
+import AddDeleteButton from "../ui/add-delete-button";
 
 const TRACK_ORDER: MelodicTrackName[] = ["b", "as", "a", "gs", "g", "fs", "f", "e", "ds", "d", "cs", "c"];
 
@@ -69,7 +69,7 @@ export default function MelodicBars({
             </div>
 
             {/* add/delete bar button */}
-            <div className="mt-auto ml-[1rem] mr-[5rem]">
+            <div className="ml-[1rem] mr-[5rem]">
                 <AddDeleteButton onAdd={handleAdd} onDelete={handleDelete} />
             </div>
         </div>

@@ -12,7 +12,7 @@ interface KeyboardStore {
 
 // helper function to keep the initial state clean
 const createInitialStruct = (): MelodicNoteData[] => 
-    Array.from({ length: 32 }, () => ({
+    Array.from({ length: 64 }, () => ({
         note: "~",
         gain: 1,
         release: 1,

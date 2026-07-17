@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { MelodicTrackName } from "../../stores/types";
-import { useKeyboardStore } from "../../stores/useKeyboardStore";
+import { useGuitarStore } from "../../stores/useGuitarStore";
 import MelodicBars from "./melodic-instrument/melodic-bars";
 import MelodicTracks from "./melodic-instrument/melodic-tracks";
 import InstrumentSettings from "./melodic-instrument/instrument-settings";
@@ -8,30 +8,35 @@ import NoteSettings from "./melodic-instrument/note-settings";
 import PianoRoll from "./ui/piano-roll";
 
 const BANKS = [
-    { value: "gm_piano", label: "ACOUSTIC PIANO" },
-    { value: "gm_epiano1", label: "KEYBOARD 1" },
-    { value: "gm_epiano2", label: "KEYBOARD 2" },
+    { value: "gm_acoustic_guitar_nylon", label: "ACOUSTIC NYLON" },
+    { value: "gm_acoustic_guitar_steel", label: "ACOUSTIC STEEL" },
+    { value: "gm_distortion_guitar", label: "DISTORTION" },
+    { value: "gm_electric_guitar_clean", label: "CLEAN ELECTRIC" },
+    { value: "gm_electric_guitar_jazz", label: "JAZZ ELECTRIC" },
+    { value: "gm_electric_guitar_muted", label: "MUTED ELECTRIC" },
+    { value: "gm_overdriven_guitar", label: "OVERDRIVEN" },
 ];
 
-export default function Keyboard() {
+export default function Guitar() {
     const [selectedNote, setSelectedNote] = useState<{ note: MelodicTrackName, index: number } | null>(null);
-    const keyboard = useKeyboardStore((s) => s.keyboard);
-    const settings = useKeyboardStore((s) => s.keyboard.settings);
-    const updateKeyboard = useKeyboardStore((s) => s.updateKeyboard);
-    const updateNote = useKeyboardStore((s) => s.updateNote);
+    const guitar = useGuitarStore((s) => s.guitar);
+    const settings = useGuitarStore((s) => s.guitar.settings);
+    const updateGuitar = useGuitarStore((s) => s.updateGuitar);
+    const updateNote = useGuitarStore((s) => s.updateNote);
 
     return (
         <div className="flex flex-col gap-[0.2rem]">
-            <div className="flex gap-[0.2rem]">
+            <div className="flex justify-between">
                 <InstrumentSettings
                     banks={BANKS}
                     settings={settings}
-                    updateInstrument={updateKeyboard}
+                    updateInstrument={updateGuitar}
                 />
+                <div className="min-w-[40.7rem]" />
                 {selectedNote && (
                     <NoteSettings
                         selectedNote={selectedNote}
-                        noteData={keyboard[selectedNote.note].struct[selectedNote.index]}
+                        noteData={guitar[selectedNote.note].struct[selectedNote.index]}
                         updateNote={updateNote}
                     />
                 )}
@@ -39,13 +44,13 @@ export default function Keyboard() {
 
             <div className="flex gap-[0.2rem]">
                 <MelodicTracks
-                    instrument={keyboard}
-                    updateInstrument={updateKeyboard}
+                    instrument={guitar}
+                    updateInstrument={updateGuitar}
                 />
                 <PianoRoll />
                 <MelodicBars
-                    instrument={keyboard}
-                    updateInstrument={updateKeyboard}
+                    instrument={guitar}
+                    updateInstrument={updateGuitar}
                     updateNote={updateNote}
                     selectedNote={selectedNote}
                     setSelectedNote={setSelectedNote}

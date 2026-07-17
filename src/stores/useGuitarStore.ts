@@ -12,7 +12,7 @@ export interface GuitarStore {
 
 // helper function to keep the initial state clean
 const createInitialStruct = (): MelodicNoteData[] => 
-    Array.from({ length: 32 }, () => ({
+    Array.from({ length: 64 }, () => ({
         note: "~",
         gain: 1,
         release: 1,
@@ -22,7 +22,7 @@ const createInitialStruct = (): MelodicNoteData[] =>
 export const useGuitarStore = create<GuitarStore>()((set, get) => ({
     guitar: {
         settings: {
-            play: false,
+            play: true,
             bank: "gm_acoustic_guitar_nylon", // Default sound bank updated to guitar
             slow: 2,
             gain: 1,

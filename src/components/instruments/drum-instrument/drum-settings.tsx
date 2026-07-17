@@ -1,15 +1,16 @@
-import type { MelodicInstrumentSettings, MelodicInstrumentData } from "../../../stores/types";
+import type { InstrumentSettings } from "../../../stores/types";
+import type { DrumState } from "../../../stores/useDrumStore";
 import BankSelector from "../ui/bank-selector";
 import Speaker from "../ui/speaker";
 import VolumeSlider from "../ui/volume-slider";
 
-interface InstrumentSettingsProps {
-    banks: { value: string, label: string }[];
-    settings: MelodicInstrumentSettings;
-    updateInstrument: <K extends keyof MelodicInstrumentData>(name: K, updates: Partial<MelodicInstrumentData[K]>) => void;
+interface DrumSettingsProps {
+    banks: { value: string; label: string }[];
+    settings: InstrumentSettings;
+    updateDrum: <K extends keyof DrumState>(name: K, updates: Partial<DrumState[K]>) => void;
 }
 
-export default function InstrumentSettings({ banks, settings, updateInstrument }: InstrumentSettingsProps) {
+export default function DrumSettings({ banks, settings, updateDrum }: DrumSettingsProps) {
     return (
         <div className="w-[17rem] h-[5.5rem] flex flex-col justify-center gap-[0.2rem] px-[1rem] z-10">
             <div className="grey-text mb-[0.5rem]">INSTRUMENT SETTINGS</div>
@@ -23,18 +24,18 @@ export default function InstrumentSettings({ banks, settings, updateInstrument }
                     <BankSelector
                         banks={banks}
                         bank={settings.bank}
-                        onChange={(bank) => updateInstrument("settings", { bank })}
+                        onChange={(bank) => updateDrum("settings", { bank })}
                     />
                 </div>
 
                 <div className="flex items-center gap-[0.2rem]">
                     <Speaker
                         play={settings.play}
-                        onToggle={() => updateInstrument("settings", { play: !settings.play })}
+                        onToggle={() => updateDrum("settings", { play: !settings.play })}
                     />
                     <VolumeSlider
                         gain={settings.gain}
-                        onChange={(gain) => updateInstrument("settings", { gain })}
+                        onChange={(gain) => updateDrum("settings", { gain })}
                     />
                 </div>
             </div>
