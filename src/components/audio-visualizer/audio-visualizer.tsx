@@ -22,25 +22,25 @@ export default function AudioVisualizer() {
             // if the context isn't running yet (user hasn't clicked play), wait.
             if (!audioCtx || audioCtx.state !== "running") return false;
 
-            // if my analyzer hasn't been created yet, make one
+            // if analyzer hasn't been created yet, make one
             if (!customAnalyserRef.current) {
                 const analyser = audioCtx.createAnalyser();
                 analyser.fftSize = 256;
                 analyser.smoothingTimeConstant = 0.8;
                 
-                // connect my analyser directly to the main speakers
+                // connect analyser directly to the main speakers
                 analyser.connect(audioCtx.destination);
         
                 // hijack: intercept strudel's audio
                 if (!isAudioPatched) {
                     const originalConnect = AudioNode.prototype.connect;
                     
-                    // @ts-ignore - We use ...args to accept any number of arguments
+                    // @ts-ignore - use ...args to accept any number of arguments
                     AudioNode.prototype.connect = function (...args: any[]) {
                         const destination = args[0];
                         
                         // if Strudel tries to plug an audio node into the main speakers...
-                        // Note: We check if destination matches the destination of our audio context
+                        // Note: check if destination matches the destination of our audio context
                         if (destination === audioCtx.destination && this !== analyser) {
                             console.log("Intercepted Strudel audio! Routing to visualizer...");
                             // force it to go through our analyser first

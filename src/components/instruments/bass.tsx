@@ -26,13 +26,12 @@ export default function Bass() {
 
     return (
         <div className="flex flex-col gap-[0.2rem]">
-            <div className="flex justify-between">
+            <div className="flex gap-[0.2rem]">
                 <InstrumentSettings
                     banks={BANKS}
                     settings={settings}
                     updateInstrument={updateBass}
                 />
-                <div className="min-w-[40.7rem]" />
                 {selectedNote && (
                     <NoteSettings
                         selectedNote={selectedNote}
@@ -43,11 +42,15 @@ export default function Bass() {
             </div>
 
             <div className="flex gap-[0.2rem]">
-                <MelodicTracks
-                    instrument={bass}
-                    updateInstrument={updateBass}
-                />
-                <PianoRoll />
+                <div className="mt-[1rem]">
+                    <MelodicTracks
+                        instrument={bass}
+                        updateInstrument={updateBass}
+                    />
+                </div>
+                <div className="mt-[1rem]">
+                    <PianoRoll />
+                </div>
                 <MelodicBars
                     instrument={bass}
                     updateInstrument={updateBass}

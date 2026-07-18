@@ -10,7 +10,7 @@ const InstrumentSelector = ({ selectedInstrument, setSelectedInstrument }: Instr
         <div className="flex items-center gap-[0.3rem]">
             <button
                 type="button"
-                className="w-[4.5rem] p-[0.2rem]"
+                className="w-[4.5rem] p-[0.2rem] cursor-pointer"
                 onClick={() => setSelectedInstrument("KEYBOARD")}
                 style={{ backgroundColor: selectedInstrument === "KEYBOARD" ? "#525252" : "transparent" }}
             >
@@ -18,7 +18,7 @@ const InstrumentSelector = ({ selectedInstrument, setSelectedInstrument }: Instr
             </button>
             <button
                 type="button"
-                className="w-[4.5rem] p-[0.2rem]"
+                className="w-[4.5rem] p-[0.2rem] cursor-pointer"
                 onClick={() => setSelectedInstrument("GUITAR")}
                 style={{ backgroundColor: selectedInstrument === "GUITAR" ? "#525252" : "transparent" }}
             >
@@ -26,7 +26,7 @@ const InstrumentSelector = ({ selectedInstrument, setSelectedInstrument }: Instr
             </button>
             <button
                 type="button"
-                className="w-[4.5rem] p-[0.2rem]"
+                className="w-[4.5rem] p-[0.2rem] cursor-pointer"
                 onClick={() => setSelectedInstrument("BASS")}
                 style={{ backgroundColor: selectedInstrument === "BASS" ? "#525252" : "transparent" }}
             >
@@ -34,7 +34,7 @@ const InstrumentSelector = ({ selectedInstrument, setSelectedInstrument }: Instr
             </button>
             <button
                 type="button"
-                className="w-[4.5rem] p-[0.2rem]"
+                className="w-[4.5rem] p-[0.2rem] cursor-pointer"
                 onClick={() => setSelectedInstrument("SYNTH")}
                 style={{ backgroundColor: selectedInstrument === "SYNTH" ? "#525252" : "transparent" }}
             >
@@ -42,7 +42,7 @@ const InstrumentSelector = ({ selectedInstrument, setSelectedInstrument }: Instr
             </button>
             <button
                 type="button"
-                className="w-[4.5rem] p-[0.2rem]"
+                className="w-[4.5rem] p-[0.2rem] cursor-pointer"
                 onClick={() => setSelectedInstrument("DRUMS")}
                 style={{ backgroundColor: selectedInstrument === "DRUMS" ? "#525252" : "transparent" }}
             >

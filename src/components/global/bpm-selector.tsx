@@ -1,7 +1,7 @@
 import { useGlobalStore } from "../../stores/useGlobalStore";
 
 const STEP = 1;
-const MIN = 20;
+const MIN = 0;
 const MAX = 300;
 
 const BPMSelector = () => {

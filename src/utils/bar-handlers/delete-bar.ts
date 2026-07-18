@@ -22,25 +22,22 @@ export const deleteBar = <T extends DeletableInstrumentData>({
 
     // prevent deletion below the minimum 32 steps (2 bars)
     if (structLength <= 32) {
-        alert("Cannot delete any more bars.");
         return;
     }
 
-    if (window.confirm("Do you want to delete a bar? This action cannot be undone.")) {
-        
-        // delete one bar (16 steps) from every track component
-        Object.entries(instrument).forEach(([name, inst]) => {
-            if (name === "settings") return;
+    // delete one bar (16 steps) from every track component
+    Object.entries(instrument).forEach(([name, inst]) => {
+        if (name === "settings") return;
 
-            // safety check: skip any future properties that aren't tracks
-            if (!inst || !Array.isArray(inst.struct)) return;
+        // safety check: skip any future properties that aren't tracks
+        if (!inst || !Array.isArray(inst.struct)) return;
 
-            const newStruct = inst.struct.slice(0, -16);
-            update(name as keyof T, { struct: newStruct } as any);
-        });
+        const newStruct = inst.struct.slice(0, -16);
+        update(name as keyof T, { struct: newStruct } as any);
+    });
 
-        // decrease the strudel timing variable
-        const newSlow = instrument.settings.slow - 1;
-        update("settings" as keyof T, { slow: newSlow } as any);
-    }
+    // decrease the strudel timing variable
+    const newSlow = instrument.settings.slow - 1;
+    update("settings" as keyof T, { slow: newSlow } as any);
+
 };

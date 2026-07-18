@@ -14,17 +14,17 @@ export default function NoteSettings({ selectedNote, noteData, updateNote }: Not
     if (!noteData) return null;
 
     return (
-        <div className="w-[calc(100vw-57.2rem)] max-w-[38rem] h-[5.5rem] flex flex-col justify-center gap-[0.2rem] px-[1rem] bg-[#252525] z-100">
+        <div className="w-[calc(100vw-57.2rem)] max-w-[35rem] h-[5.5rem] flex flex-col justify-center gap-[0.2rem] px-[1rem] bg-[#252525] z-100">
             <div className="grey-text mb-[0.5rem]">NOTE SETTINGS</div>
             <div className="small-text w-full flex justify-between">
-                <span className="w-[19rem]">OCTAVE</span>
+                <span className="w-[16rem]">OCTAVE</span>
                 <span className="w-[7rem]">RELEASE</span>
                 <span className="w-[7rem]">VOLUME</span>
             </div>
 
             <div className="w-full flex items-center justify-between">
                 {/* octave */}
-                <div className="w-[19rem] flex justify-start">
+                <div className="w-[16rem] flex justify-start">
                     <OctaveRadio
                         selectedNote={selectedNote}
                         note={noteData.note}

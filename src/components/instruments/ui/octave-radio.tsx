@@ -8,9 +8,6 @@ interface OctaveRadioProps {
 }
 
 const OctaveRadio = ({ selectedNote, note, updateNote }: OctaveRadioProps) => {
-    // e.g. cs -> c#
-    const displayBase = selectedNote.note.replace("s", "#");
-    const displayNote = displayBase.charAt(0).toUpperCase() + displayBase.slice(1);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newNoteValue = e.target.value;
@@ -24,7 +21,7 @@ const OctaveRadio = ({ selectedNote, note, updateNote }: OctaveRadioProps) => {
                 return (
                     <div className="radio-wrapper" key={octave}>
                         <label className="radio-button">
-                            <span className="radio-label">{`${displayNote}${octave}`}</span>
+                            <span className="radio-label">{octave}</span>
                             <input
                                 type="radio"
                                 name={`radio-group-${selectedNote.index}`}

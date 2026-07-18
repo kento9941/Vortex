@@ -36,7 +36,7 @@ export default function MelodicBars({
     const handleDelete = () => deleteBar({ instrument: instrument, update: updateInstrument });
 
     return (
-        <div className="flex w-full overflow-x-auto">
+        <div className="flex w-full overflow-x-auto pt-[1rem]">
             <div className="flex flex-col gap-[0.2rem] relative w-max">
                 {TRACK_ORDER.map((trackKey) => (
                     <TrackRow
@@ -52,18 +52,28 @@ export default function MelodicBars({
                 {Array.from({ length: Math.max(0, totalDividers) }).map((_, i) => {
                     const noteBlockCount = (i + 1) * 4;
                     const leftOffset = noteBlockCount * 1.5 - 0.1;
+                    const startOfBar = (i + 1) % 4 ? false : true;
+                    const showLabel = i % 4 ? false : true;
+                    const label = i / 4 + 1;
 
                     return (
                         <div
                             key={i}
-                            className="absolute top-0 bottom-0 pointer-events-none z-10"
+                            className="absolute bottom-0 pointer-events-none z-10"
                             style={{
+                                top: startOfBar ? "-1rem" : 0,
                                 left: `${leftOffset}rem`,
                                 width: "1px",
                                 backgroundColor: "rgba(255, 255, 255, 0.18)",
                                 transform: "translateX(-50%)",
                             }}
-                        />
+                        >
+                            {showLabel &&
+                                <div className="relative">
+                                    <span className="absolute -top-[1rem] -left-[5.7rem]">{label}</span>
+                                </div>
+                            }
+                        </div>
                     );
                 })}
             </div>
@@ -119,7 +129,7 @@ const TrackRow = ({
                         onClick={() => handleCellClick(j, noteData.note)}
                         style={{
                             backgroundColor: isActive ? (isSelected ? "#F5F5F5" : "#C0C0C0") : "#252525",
-                            boxShadow: isSelected ? "inset 0 0 0 0.08rem #F5F5F5, inset 0 0 0 0.16rem #252525" : "none",
+                            boxShadow: isSelected ? "inset 0 0 0 0.12rem #F5F5F5, inset 0 0 0 0.3rem #252525" : "none",
                             transition: "background-color 0.10s, outline 0.10s",
                             flexShrink: 0,
                         }}

@@ -38,11 +38,15 @@ export default function Keyboard() {
             </div>
 
             <div className="flex gap-[0.2rem]">
-                <MelodicTracks
-                    instrument={keyboard}
-                    updateInstrument={updateKeyboard}
-                />
-                <PianoRoll />
+                <div className="mt-[1rem]">
+                    <MelodicTracks
+                        instrument={keyboard}
+                        updateInstrument={updateKeyboard}
+                    />
+                </div>
+                <div className="mt-[1rem]">
+                    <PianoRoll />
+                </div>
                 <MelodicBars
                     instrument={keyboard}
                     updateInstrument={updateKeyboard}

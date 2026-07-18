@@ -22,13 +22,12 @@ export default function Synth() {
 
     return (
         <div className="flex flex-col gap-[0.2rem]">
-            <div className="flex justify-between">
+            <div className="flex gap-[0.2rem]">
                 <InstrumentSettings
                     banks={BANKS}
                     settings={settings}
                     updateInstrument={updateSynth}
                 />
-                <div className="min-w-[40.7rem]" />
                 {selectedNote && (
                     <NoteSettings
                         selectedNote={selectedNote}
@@ -39,11 +38,15 @@ export default function Synth() {
             </div>
 
             <div className="flex gap-[0.2rem]">
-                <MelodicTracks
-                    instrument={synth}
-                    updateInstrument={updateSynth}
-                />
-                <PianoRoll />
+                <div className="mt-[1rem]">
+                    <MelodicTracks
+                        instrument={synth}
+                        updateInstrument={updateSynth}
+                    />
+                </div>
+                <div className="mt-[1rem]">
+                    <PianoRoll />
+                </div>
                 <MelodicBars
                     instrument={synth}
                     updateInstrument={updateSynth}

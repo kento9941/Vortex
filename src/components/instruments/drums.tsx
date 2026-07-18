@@ -27,7 +27,9 @@ export default function Drums() {
             </div>
 
             <div className="flex gap-[0.2rem]">
-                <DrumTracks drum={drum} updateDrum={updateDrum} />
+                <div className="mt-[1rem]">
+                    <DrumTracks drum={drum} updateDrum={updateDrum} />
+                </div>
                 <DrumBars drum={drum} updateDrum={updateDrum} />
             </div>
         </div>

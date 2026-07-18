@@ -10,6 +10,7 @@ const PlayButton = () => {
         <button
             type="button"
             aria-label={isPlaying ? "Stop" : "Play"}
+            className="cursor-pointer"
             onClick={async () => {
                 if (isPlaying) { stop?.() }
                 else { await proc?.(); play?.(); }
