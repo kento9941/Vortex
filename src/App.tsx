@@ -44,7 +44,12 @@ function App() {
   return (
     <main className="w-full">
       {/* hero section */}
-      <div className="w-full h-[10rem]"></div>
+      <div className="gradient-container w-full h-[10rem]">
+        <div className="gradient-background" />
+        <div className="relative z-10 w-full flex justify-center pointer-events-none">
+          <AudioVisualizer />
+        </div>
+      </div>
 
       {/* editor */}
       <div className="relative px-[0.3rem] pb-[1rem]">
@@ -71,7 +76,6 @@ function App() {
       
       {/* hidden */}
       <StrudelEditor />
-      <AudioVisualizer />
     </main>
   )
 }

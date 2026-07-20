@@ -89,7 +89,6 @@ export default function StrudelEditor() {
     const handlePlay = (): void => {
         globalEditor?.evaluate();
         setPlaying(true);
-        console.log(MyTunes());
     };
 
     const handleStop = (): void => {
