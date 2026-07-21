@@ -96,7 +96,7 @@ export const useGuitarStore = create<GuitarStore>()((set, get) => ({
         set({
             guitar: {
                 settings: {
-                    play: false,
+                    play: true,
                     bank: "gm_acoustic_guitar_nylon",
                     slow: 2,
                     gain: 1,

@@ -96,7 +96,7 @@ export const useKeyboardStore = create<KeyboardStore>()((set, get) => ({
         set({
             keyboard: {
                 settings: {
-                    play: false,
+                    play: true,
                     bank: "gm_piano",
                     slow: 2,
                     gain: 1,

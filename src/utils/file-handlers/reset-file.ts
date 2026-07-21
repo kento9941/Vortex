@@ -4,7 +4,7 @@ import { useBassStore } from "../../stores/useBassStore";
 import { useSynthStore } from "../../stores/useSynthStore";
 import { useDrumStore } from "../../stores/useDrumStore";
 
-export default function resetAllStore() {
+export default function reset() {
     try {
         useKeyboardStore.getState().resetState?.();
         useGuitarStore.getState().resetState?.();

@@ -96,7 +96,7 @@ export const useSynthStore = create<SynthStore>()((set, get) => ({
         set({
             synth: {
                 settings: {
-                    play: false,
+                    play: true,
                     bank: "saw",
                     slow: 2,
                     gain: 1,

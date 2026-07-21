@@ -4,17 +4,43 @@ import { getAudioContext } from "@strudel/webaudio";
 let isAudioPatched = false;
 
 export default function AudioVisualizer() {
+    const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const rafRef = useRef<number>(0);
     const customAnalyserRef = useRef<AnalyserNode | null>(null);
-    
-    // Store references to our DOM elements so we can update them directly
-    const barsRef = useRef<(HTMLDivElement | null)[]>([]);
 
-    // We calculate a static number of bins to render the divs initially
-    // 256 fftSize = 128 frequency bins. 128 * 0.9 = ~115 visible bars.
-    const visibleBins = 115; 
+    const visibleBins = 115;
+    const barWidth = 2;
+    const gap = 2;
+    const baseHeight = 4;
+    const maxScale = 20;
 
     useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+
+        // 1. Allocate memory once
+        const dataArray = new Uint8Array(128);
+
+        // 2. Handle crisp rendering on High-DPI / Retina screens
+        let dpr = window.devicePixelRatio || 1;
+        let cssWidth = 0;
+        let cssHeight = 0;
+
+        const resizeObserver = new ResizeObserver((entries) => {
+            for (const entry of entries) {
+                cssWidth = entry.contentRect.width;
+                cssHeight = entry.contentRect.height;
+                // Scale the physical canvas memory to match the screen's pixel density
+                canvas.width = cssWidth * dpr;
+                canvas.height = cssHeight * dpr;
+                // Scale the drawing context so we can still use standard CSS pixel math
+                ctx.scale(dpr, dpr);
+            }
+        });
+        resizeObserver.observe(canvas);
+
         const attemptAudioWireUp = () => {
             const audioCtx = getAudioContext();
             if (!audioCtx || audioCtx.state !== "running") return false;
@@ -37,72 +63,68 @@ export default function AudioVisualizer() {
                         }
                         return originalConnect.apply(this, args as any);
                     };
-            
                     isAudioPatched = true;
                 }
-        
                 customAnalyserRef.current = analyser;
             }
             return true;
         };
 
-        const updateBars = () => {
-            rafRef.current = requestAnimationFrame(updateBars);
+        const draw = () => {
+            rafRef.current = requestAnimationFrame(draw);
             
-            attemptAudioWireUp();
+            if (!customAnalyserRef.current) {
+                attemptAudioWireUp();
+            }
+            
             const analyser = customAnalyserRef.current;
 
-            // Default to empty data (zeros)
-            let data = new Uint8Array(visibleBins);
-
-            // If audio is flowing, populate with real data
             if (analyser) {
-                const bufferLength = analyser.frequencyBinCount;
-                const realData = new Uint8Array(bufferLength);
-                analyser.getByteFrequencyData(realData); 
-                data = realData;
+                analyser.getByteFrequencyData(dataArray); 
+            } else {
+                dataArray.fill(0);
             }
 
-            // Directly update the style of each mapped div
-            // Inside your updateBars loop:
+            // Wipe the previous frame
+            ctx.clearRect(0, 0, cssWidth, cssHeight);
+
+            // Calculate total width of all bars to center them horizontally
+            const totalWidth = (visibleBins * barWidth) + ((visibleBins - 1) * gap);
+            const startX = (cssWidth - totalWidth) / 2;
+            const centerY = cssHeight / 2;
+
             for (let i = 0; i < visibleBins; i++) {
-                const bar = barsRef.current[i];
-                if (!bar) continue;
-
-                const normalized = (data[i] || 0) / 255; 
+                const normalized = dataArray[i] / 255; 
                 
-                // Instead of pixels, calculate a scale multiplier. 
-                // 1 = 10px (resting), 8 = 80px (loud)
-                const scale = Math.max(1, Math.pow(normalized, 1.2) * 20);
+                const scale = Math.max(1, Math.pow(normalized, 1.2) * maxScale);
+                const height = baseHeight * scale;
+                const opacity = 0.3 + (normalized * 0.7);
 
-                // Update transform instead of height!
-                bar.style.transform = `scaleY(${scale})`;
-                bar.style.backgroundColor = `rgba(255, 255, 255, ${0.3 + (normalized * 0.7)})`;
+                const x = startX + i * (barWidth + gap);
+                const y = centerY - (height / 2);
+
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacity.toFixed(2)})`;
+                ctx.beginPath();
+                
+                // roundRect creates perfect pill shapes (x, y, width, height, borderRadius)
+                ctx.roundRect(x, y, barWidth, height, barWidth / 2); 
+                ctx.fill();
             }
         };
 
-        updateBars();
-        return () => cancelAnimationFrame(rafRef.current);
+        draw();
+
+        return () => {
+            cancelAnimationFrame(rafRef.current);
+            resizeObserver.disconnect();
+        };
     }, []);
 
     return (
-        <div 
-            className="flex items-center justify-center gap-[2px] w-full" 
-            style={{ height: "10rem" }}
-        >
-            {Array.from({ length: visibleBins }).map((_, i) => (
-                <div
-                    key={i}
-                    ref={(el) => {barsRef.current[i] = el}}
-                    style={{
-                        width: "2px",
-                        height: "4px", 
-                        backgroundColor: "rgba(255, 255, 255, 0.3)",
-                        transformOrigin: "center",
-                        willChange: "transform, background-color" // tell gpu
-                    }}
-                />
-            ))}
-        </div>
+        <canvas 
+            ref={canvasRef}
+            // Give it the exact same dimensions as the old wrapper div
+            className="w-full h-[10rem]" 
+        />
     );
 }

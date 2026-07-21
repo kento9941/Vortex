@@ -96,7 +96,7 @@ export const useBassStore = create<BassStore>()((set, get) => ({
         set({
             bass: {
                 settings: {
-                    play: false,
+                    play: true,
                     bank: "gm_acoustic_bass",
                     slow: 2,
                     gain: 1,
