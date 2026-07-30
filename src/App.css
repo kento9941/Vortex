@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 :root {
+    overscroll-behavior-x: none;
+
     --background: #151515;
     --white: #C0C0C0;
     --grey: #8b8b8b;
