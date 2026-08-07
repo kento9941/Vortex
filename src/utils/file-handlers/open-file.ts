@@ -4,25 +4,14 @@ import { useBassStore } from "../../stores/useBassStore";
 import { useSynthStore } from "../../stores/useSynthStore";
 import { useDrumStore } from "../../stores/useDrumStore";
 import { useGlobalStore } from "../../stores/useGlobalStore";
-import type { DrumState } from "../../stores/useDrumStore";
-import type { MelodicInstrumentData } from "../../stores/types";
-
-interface SequencerFileData {
-    keyboard: MelodicInstrumentData;
-    guitar: MelodicInstrumentData;
-    bass: MelodicInstrumentData;
-    synth: MelodicInstrumentData;
-    drum: DrumState;
-    bpm: number;
-}
+import { isValidSequencerFileData } from "./validate-file";
 
 export default async function open(file: File): Promise<void> {
     try {
-        // read the file directly as text without FileReader boilerplate
         const text = await file.text();
-        const data: SequencerFileData = JSON.parse(text);
+        const data: unknown = JSON.parse(text);
 
-        if (!data.keyboard || !data.guitar || !data.bass || !data.synth || !data.drum) {
+        if (!isValidSequencerFileData(data)) {
             throw new Error("Invalid file structure");
         }
 

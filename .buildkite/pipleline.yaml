@@ -1,0 +1,10 @@
+steps:
+  - label: ":vitest: Unit tests"
+    command: |
+      npm ci
+      npm run test:ci
+    plugins:
+      - artifacts#v1.9.0:
+          upload: "coverage/**/*"
+    agents:
+      queue: "default"
