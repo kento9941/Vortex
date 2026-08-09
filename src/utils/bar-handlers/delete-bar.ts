@@ -20,8 +20,8 @@ export const deleteBar = <T extends DeletableInstrumentData>({
     const firstTrack = Object.values(instrument).find((d: any) => d && Array.isArray(d.struct));
     const structLength = firstTrack?.struct?.length ?? 0;
 
-    // prevent deletion below the minimum 32 steps (2 bars)
-    if (structLength <= 32) {
+    // prevent deletion below the minimum 64 steps (4 bars)
+    if (structLength <= 64) {
         return;
     }
 
