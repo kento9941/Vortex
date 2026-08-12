@@ -73,6 +73,59 @@ export function isValidDrumState(value: unknown): value is DrumState {
     return DRUM_TRACK_NAMES.every((name) => isValidDrumTrack(value[name]));
 }
 
+export function debugValidateMelodicInstrument(value: unknown, label: string): void {
+    if (!isRecord(value)) {
+        console.error(`❌ ${label}: not an object`);
+        return;
+    }
+    console.log(`--- ${label} ---`);
+    console.log(isValidSettings(value.settings) ? "✅ settings" : "❌ settings FAILED", value.settings);
+
+    MELODIC_TRACK_NAMES.forEach((name) => {
+        const track = value[name];
+        if (!isRecord(track)) {
+            console.log(`❌ ${label}.${name}: not an object`, track);
+            return;
+        }
+        if (!Array.isArray(track.struct) || track.struct.length === 0) {
+            console.log(`❌ ${label}.${name}.struct: invalid or empty`, track.struct);
+            return;
+        }
+        const badIndex = (track.struct as unknown[]).findIndex((n) => !isValidMelodicNote(n));
+        if (badIndex !== -1) {
+            console.log(`❌ ${label}.${name}.struct[${badIndex}]: invalid note`, track.struct[badIndex]);
+            return;
+        }
+        if (typeof track.play !== "boolean") {
+            console.log(`❌ ${label}.${name}.play`, track.play);
+            return;
+        }
+        if (typeof track.gain !== "number") {
+            console.log(`❌ ${label}.${name}.gain`, track.gain);
+            return;
+        }
+        console.log(`✅ ${label}.${name}`);
+    });
+}
+
+export function debugValidateSequencerFileData(value: unknown): void {
+    if (!isRecord(value)) {
+        console.error("❌ top-level value is not an object");
+        return;
+    }
+    const checks: [string, boolean][] = [
+        ["keyboard", isValidMelodicInstrument(value.keyboard)],
+        ["guitar", isValidMelodicInstrument(value.guitar)],
+        ["bass", isValidMelodicInstrument(value.bass)],
+        ["synth", isValidMelodicInstrument(value.synth)],
+        ["drum", isValidDrumState(value.drum)],
+        ["bpm", typeof value.bpm === "number"],
+    ];
+    checks.forEach(([name, ok]) => {
+        console.log(ok ? `✅ ${name}` : `❌ ${name} FAILED`);
+    });
+}
+
 export function isValidSequencerFileData(value: unknown): value is SequencerFileData {
     if (!isRecord(value)) return false;
     return (
